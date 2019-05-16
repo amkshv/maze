@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Maze</title>
+</head>
+
+<body>
+    <canvas width="1200" height="600" id="canvas" style="background-color: white">U MAD?</canvas>
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    ctx = canvas.getContext('2d');
+
+    var x = 0;
+    var y = 0;
+    var density = 90; // in percentage
+    var lineLength = 30;
+    var strokeWeight = 8;
+    var strokeColor = "black"; // any color
+    var lineEndStyle = "round" // butt, round or square
+
+    function drawFS() {
+        ctx.beginPath();
+        ctx.lineCap = lineEndStyle;
+        ctx.lineWidth = strokeWeight;
+        ctx.strokeStyle = strokeColor;
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + lineLength, y + lineLength);
+        ctx.stroke();
+    }
+
+    function drawBS() {
+        ctx.beginPath();
+        ctx.lineCap = lineEndStyle;
+        ctx.lineWidth = strokeWeight;
+        ctx.strokeStyle = strokeColor;
+        ctx.moveTo(x, y + lineLength);
+        ctx.lineTo(x + lineLength, y);
+        ctx.stroke();
+    }
+
+    function draw() {
+        if (Math.random() < (density / 100)) {
+            if (Math.random() > 0.5) {
+                drawFS();
+            } else {
+                drawBS();
+            }
+            x += lineLength;
+
+            checkBorder();
+        } else {
+            //drawBS();
+            x += lineLength;
+
+            checkBorder();
+        }
+        if (y > canvas.height) {
+            clearInterval(int);
+        }
+    }
+
+    function checkBorder() {
+        if (x > canvas.width) {
+            x = 0;
+            y += lineLength;
+        }
+    }
+
+    var int = setInterval(draw, 1);
+
+</script>
+
+</html>
